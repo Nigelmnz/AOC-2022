@@ -1,26 +1,40 @@
-# from util import parse_input
+from util import parse_input
 
-# def answer_1(input):
-#     return max(input)
+def rps(them, me):
+    score = me + 1
 
-# def answer_2(input):
-#     return sum(sorted(input, reverse=True)[0:3])
+    if them == me:
+        score += 3
+    elif (them + 1) % 3 == me:
+        score += 6
 
-# def parser(lines):
-#     counts = []
-#     counter = 0
-#     for line in lines:
-#         if line == "":
-#             counts.append(counter)
-#             counter = 0
-#         else:
-#             counter += int(line)
+    return score
+    
+def rps2(them, me):
+    if me == 0:
+        return rps(them, (them - 1) % 3)
+    elif me == 1:
+        return rps(them, them)
+    else:
+        return rps(them, (them + 1) % 3)  
 
-#     return counts + [counter]
+def answer_1(input):
+    return sum([rps(them, me) for them, me in input])
+         
+def answer_2(input):
+    return sum([rps2(them, me) for them, me in input])
 
-# input = parse_input(parser, "day01")
-# test = parse_input(parser, "day01_test")
+def translate(move):
+    moveset = "ABC" if move in "ABC" else "XYZ"
+    return [0,1,2][moveset.index(move)]
 
-# print(answer_1(test))
-# print(answer_1(input))
-# print(answer_2(input))
+def parser(lines):
+    return [[translate(move) for move in line.split(" ")] for line in lines]
+
+input = parse_input(parser, "input")
+test = parse_input(parser, "test_input")
+
+print(answer_1(test))
+print(answer_1(input))
+print(answer_2(test))
+print(answer_2(input))

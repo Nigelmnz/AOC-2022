@@ -18,8 +18,8 @@ def parser(lines):
 
     return counts + [counter]
 
-input = parse_input(parser, "day01")
-test = parse_input(parser, "day01_test")
+input = parse_input(parser, "input")
+test = parse_input(parser, "test_input")
 
 print(answer_1(test))
 print(answer_1(input))
