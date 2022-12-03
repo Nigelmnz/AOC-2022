@@ -1,40 +1,39 @@
-# from util import parse_input
+from curses.ascii import isupper
+from re import X
+from util import parse_input
 
-# def rps(them, me):
-#     score = me + 1
+def char_val(c):
+    return ord(c) - 64 + 26 if isupper(c) else ord(c) - 96
 
-#     if them == me:
-#         score += 3
-#     elif (them + 1) % 3 == me:
-#         score += 6
-
-#     return score
-    
-# def rps2(them, me):
-#     if me == 0:
-#         return rps(them, (them - 1) % 3)
-#     elif me == 1:
-#         return rps(them, them)
-#     else:
-#         return rps(them, (them + 1) % 3)  
-
-# def answer_1(input):
-#     return sum([rps(them, me) for them, me in input])
+def answer_1(input):
+    sum = 0
+    for items in input:
+        half = len(items)//2
+        left = set(items[0:half])
+        right = set(items[half:])
+        
+        shared = left & right
+        sum += char_val(shared.pop())
+    return sum
          
-# def answer_2(input):
-#     return sum([rps2(them, me) for them, me in input])
+def answer_2(input):
+    sum = 0
+    for i in range(0, len(input), 3):
+        a = set(input[i])
+        b = set(input[i+1])
+        c = set(input[i+2])
 
-# def translate(move):
-#     moveset = "ABC" if move in "ABC" else "XYZ"
-#     return [0,1,2][moveset.index(move)]
+        shared = a & b & c
+        sum += char_val(shared.pop())
+    return sum
 
-# def parser(lines):
-#     return [[translate(move) for move in line.split(" ")] for line in lines]
+def parser(lines):
+    return lines
 
-# input = parse_input(parser, "input")
-# test = parse_input(parser, "test_input")
+input = parse_input(parser, "input")
+test = parse_input(parser, "test_input")
 
-# print(answer_1(test))
-# print(answer_1(input))
-# print(answer_2(test))
-# print(answer_2(input))
+print(answer_1(test))
+print(answer_1(input))
+print(answer_2(test))
+print(answer_2(input))
